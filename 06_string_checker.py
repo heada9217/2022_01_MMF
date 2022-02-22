@@ -22,7 +22,7 @@ def string_checker(question, to_check):
                     #note: returns the entire response 
                     #rather than just the first letter
                     return item 
-        print("Sorry, {} is not a valid answer \n ", error)
+        print("Sorry that is not a valid response")
 
 
 
