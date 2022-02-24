@@ -2,10 +2,10 @@
 #each item in valid snacks is a list with 
 #valid options for each snack [full name, letter code, (a-e) and possible abbreviations ]
 valid_snacks =[
-    ["popcorn", "p", "corn", "a"]
-    ["M&M's", "m&m's", "mms", "mm", "b"]
-    ["pita_chips", "chips", "pc", "pita", "c"]
-    ["water", "w", "d"]
+    ["popcorn", "p", "corn", "a"],
+    ["M&M's", "m&m's", "mms", "mm", "b"],
+    ["pita_chips", "chips", "pc", "pita", "c"],
+    ["water", "w", "d"],
     ["orange juice", "oj", "juice", "e"]
 ]
 
@@ -14,7 +14,7 @@ snack_ok = ""
 snack = ""
 
 #loop for testing 
-for item in range(0,3):
+for item in range(0,100):
 
 
     #ask user for desired snack and put it in lowercase 
