@@ -1,9 +1,7 @@
 import re
 
-
-
-
-
+# checks valid inpput based on a list of options, 
+# includes a custom error message
 def string_check(choice, options, error):
 
     for var_list in options:
@@ -89,12 +87,6 @@ if check_snack == "Yes":
 
         #check if snack is valid 
         snack_choice = string_check(desired_snack, valid_snacks, snack_error)
-        print ("Snack Choice: ",amount, snack_choice)
-
-        #check snack amount is valid (less than 5)
-        if amount >= 5:
-            print("Sorry, you are only allowed 4 snacks max")
-            snack_choice = "Invalid choice"
 
         #add snack and amount to list...
         amount_snack = "{} {}".format(amount,snack_choice)
@@ -102,6 +94,11 @@ if check_snack == "Yes":
         #check that snack is not the exit code before adding
         if snack_choice != "xxx" and snack_choice != "Invalid choice":
             snack_order.append(snack_choice)
+        
+        #check snack amount is valid (less than 5)
+        if amount >= 5:
+            print("Sorry, you are only allowed 4 snacks maximum")
+            snack_choice = "Invalid choice"
 
 #Show snack orders
 print()
