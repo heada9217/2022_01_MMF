@@ -59,8 +59,8 @@ snack_order = []
 
 #ask user if they want a snack
 
-check_snack = "Invalid Choice"
-while check_snack == "Invalid Choice":
+check_snack = "Invalid choice"
+while check_snack == "Invalid choice":
     want_snack = input("Would you like to order any snacks?:  ").lower()
     check_snack = string_check(want_snack, yes_no, yes_no_error)
 
@@ -76,7 +76,7 @@ if check_snack == "Yes":
             break 
 
         #if item has a number, seperate it into two (number / item)
-        if re.match(number_regex, desired_snack) and snack_choice == valid_snacks:
+        if re.match(number_regex, desired_snack):
             amount = int(desired_snack[0])
             desired_snack = desired_snack[1:]
 
@@ -89,15 +89,12 @@ if check_snack == "Yes":
 
         #check if snack is valid 
         snack_choice = string_check(desired_snack, valid_snacks, snack_error)
-        if snack_choice != snack_error:
-          print ("Snack Choice: ",amount, snack_choice)
-        else:
-            print(snack_error)
+        print ("Snack Choice: ",amount, snack_choice)
 
         #check snack amount is valid (less than 5)
         if amount >= 5:
-            print("Sorry, you are only allowed 4 snacks maximum")
-            snack_choice = (snack_error)
+            print("Sorry, you are only allowed 4 snacks max")
+            snack_choice = "Invalid choice"
 
         #add snack and amount to list...
         amount_snack = "{} {}".format(amount,snack_choice)
@@ -115,4 +112,4 @@ else:
     print("Snacks Ordered:")
 
     for item in snack_order:
-        print(item)
+        print(amount, item)
