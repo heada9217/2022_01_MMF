@@ -66,7 +66,7 @@ def get_snack():
             desired_snack = desired_snack[1:]
 
         else:
-            amount - 1 
+            amount  = 1 
             desired_snack = desired_snack
 
         #remove white space around snack 
@@ -77,7 +77,7 @@ def get_snack():
 
         #check snack amount is valid (less than 5)
         if amount >= 5:
-            print("Sorry, you are only allowed 4 maximum of each snack")
+            print("Sorry, you are only allowed a maximum of 4 of each snack")
             snack_choice = "Invalid choice"
         
         #add snack and amount to list 
@@ -100,26 +100,28 @@ yes_no = [
 
 #asks user if they want a snack 
 check_snack = "Invalid choice"
-while check_snack == "Invalid choice":
+while check_snack == "Invalid choice":  
     want_snack = input("Do you want to order snacks? ").lower()
     check_snack = string_check(want_snack, yes_no, yes_no_error)
 
 #if they say yes, ask what snacks they want and add to our order
 if check_snack == "Yes":
-    get_order = get_snack(1)
+    get_order = get_snack()
 
 else:
     get_order = []
 
 #Show snack orders
 print ()
+
+
 if len(get_order) == 0:
     print("Snacks ordered: None")
 
 else:
     print("Snacks Ordered: ")
 
-    for item in snack_order:
+    for item in get_order:
         print(item)
 
 
