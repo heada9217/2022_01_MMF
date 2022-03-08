@@ -1,5 +1,4 @@
 
-
 name = ['Rangi', 'Manaia', 'Talia', 'Ariki', 'Fetu']
 
 popcorn = []
