@@ -84,6 +84,7 @@ movie_frame = pandas.DataFrame(movie_data_dict,
 
 movie_frame = movie_frame.set_index('Name')
 
-print(movie_frame)
+movie_frame = movie_frame.rename(columns={'Orange Juice': 'OJ', 'Pita Chips': 'Chips'})
+
 
 
