@@ -1,5 +1,6 @@
 #import statements 
-import re 
+import re
+from tkinter.tix import MAX 
 import pandas
 
 #functions go here 
@@ -112,17 +113,17 @@ def get_snack():
     snack_error = "Please enter a valid snack"
     
     valid_snacks = [
-    ["popcorn", "p", "corn", "a"],
-    ["M&Ms", "M&M's", "m&m's", "mms", "mm", "b"],
+    ["popcorn", "p", "pop", "corn", "a"],
+    ["M&Ms", "M&M's", "m&m's", "mms", "mm", "m", "b"],
     ["Pita Chips", "chips", "pc", "pita", "c"],
-    ["water", "w", "d"],
-    ["orange juice", "oj", "juice", "e"]
+    ["water", "w", "h2o", "d"],
+    ["orange juice", "oj", "o", "juice", "e"]
     ]
     #holds snack order for a single user. 
     snack_order = []
 
     desired_snack = ""
-    while desired_snack != ("xxx"):
+    while desired_snack != ("xxx") or desired_snack != "n":
 
         snack_row = [] 
 
@@ -270,18 +271,8 @@ while name != "xxx" and ticket_count < MAX_TICKETS:
     all_tickets.append(ticket_price)
 
     #gets snacks of each ticket
-    #asks user if they want a snack 
-    check_snack = "Invalid choice"
-    while check_snack == "Invalid choice":  
-        want_snack = input("Do you want to order snacks? ").lower()
-        check_snack = string_check(want_snack, yes_no, yes_no_error)
-
-     #if they say yes, ask what snacks they want and add to our order
-    if check_snack == "Yes":
-        snack_order = get_snack()
-
-    else:
-        snack_order = []
+    
+    snack_order = get_snack()
 
     #Assume no snacks have been bought....
     for item in snack_lists:
@@ -371,10 +362,26 @@ summary_data.append(ticket_profit)
 total_profit = snack_profit + ticket_profit
 summary_data.append(total_profit)
 
+#Create summary frame 
+summary_frame = pandas.DataFrame(summary_data_dict)
+summary_frame = summary_frame.set_index('Item')
+
 
 pandas.set_option('display.max_columns', None)
 
 pandas.set_option('precision', 2)
+
+print()
+print('*** Ticket / Snack Information ***')
+print('Note: for full details, please see the excel file called "Ticket_"')
+print()
+print(movie_frame[['Ticket', 'Snacks', 'Sub Total', 'Surcharge', 'Total']])
+
+print()
+
+print("*** Snack / Profit Summary ***")
+print()
+print(summary_frame)
 
 print_all = input("Print all columns?? (y) for yes")
 if print_all == "y":
@@ -384,6 +391,13 @@ else:
 
 print()
 
+#tell user if they have unsold tickets
+if ticket_count == MAX_TICKETS:
+    print('You have sold all the available tickets!')
+else:
+    print('You have sold {} tickets. \n'
+          'There are {} places still available'.format(ticket_count, MAX_TICKETS - ticket_count)
+
 # Calculate Total sales and profit 
 
-# Output data to test file 
+# Output data to test file
