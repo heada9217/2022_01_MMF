@@ -202,6 +202,11 @@ snack_lists = [popcorn, mms, pita_chips, water, orange_juice]
 
 surcharge_mult_list = []
 
+#Lists to store summary data
+summary_headings = ['Popcorn', 'M&Ms', 'Pita Chips', 'Water', 
+                    'Orange Juice', 'Snack Profit', 'Ticket Price'
+                    'Total Profit']
+summary_data = []
 
 #Data Frame Dictionary 
 movie_data_dict = {
@@ -214,6 +219,12 @@ movie_data_dict = {
     'Orange Juice': orange_juice,
     'Surcharge Multiplier': surcharge_mult_list
     }
+
+#Summary Dictionary
+summary_data_dict = {
+    'Item': summary_headings,
+    'Amount': summary_data
+}
 
 #cost of each snack
 price_dict = {
@@ -339,6 +350,27 @@ movie_frame = movie_frame.reindex(columns=['Ticket', 'Popcorn', 'Water', 'Pita C
 
 
 movie_frame = movie_frame.rename(columns={'Orange Juice': 'OJ', 'Pita Chips': 'Chips', 'Surcharge Multiplier' : 'SM'})
+
+# Set up summary dataframe
+#populate snack items...
+for item in snack_lists:
+    #sum items in each snack list
+    summary_data.append(sum(item))
+
+#Get snack profit 
+#Get snack total from panda
+snack_total = movie_frame['Snacks'].sum()
+snack_profit = snack_total * 0.2
+summary_data.append(snack_profit)
+
+#Get Ticket profit and add to list 
+ticket_profit = ticket_sales - (5 * ticket_count)
+summary_data.append(ticket_profit)
+
+#Work out total profit and add to list 
+total_profit = snack_profit + ticket_profit
+summary_data.append(total_profit)
+
 
 pandas.set_option('display.max_columns', None)
 
