@@ -161,6 +161,10 @@ def get_snack():
         #check that snack is not the exit code before adding 
         if snack_choice != "xxx" and snack_choice != "Invalid choice":
             snack_order.append(snack_row)
+
+def currency(x):
+    return "${:.2f}".format(x)
+
     
 # ******* MAIN ROUTINE ***********
 
@@ -205,7 +209,7 @@ surcharge_mult_list = []
 
 #Lists to store summary data
 summary_headings = ['Popcorn', 'M&Ms', 'Pita Chips', 'Water', 
-                    'Orange Juice', 'Snack Profit', 'Ticket Price'
+                    'Orange Juice', 'Snack Profit', 'Ticket Price',
                     'Total Profit']
 summary_data = []
 
@@ -321,7 +325,7 @@ movie_frame['Snacks'] = \
     movie_frame['M&Ms']*price_dict['M&Ms'] + \
     movie_frame['Orange Juice']*price_dict['Orange Juice']
 
-movie_frame['Sub total'] = \
+movie_frame['Sub Total'] = \
     movie_frame['Ticket'] + \
     movie_frame['Snacks']
 
@@ -337,10 +341,10 @@ movie_frame["Total"] = movie_frame["Sub Total"] + \
 
 small_frame = movie_frame[['Sub Total', 'Ticket', 'Surcharge', 'Total']]
 
-movie_frame = movie_frame.reindex(columns=['Ticket', 'Popcorn', 'Water', 'Pita Chips', 'M&Ms', 'Orange Juice', 'Sub Total'])
+# movie_frame = movie_frame.reindex(columns=['Ticket', 'Popcorn', 'Water', 'Pita Chips', 'M&Ms', 'Orange Juice', 'Sub Total'])
 
 
-movie_frame = movie_frame.rename(columns={'Orange Juice': 'OJ', 'Pita Chips': 'Chips', 'Surcharge Multiplier' : 'SM'})
+# movie_frame = movie_frame.rename(columns={'Orange Juice': 'OJ', 'Pita Chips': 'Chips', 'Surcharge Multiplier' : 'SM'})
 
 # Set up summary dataframe
 #populate snack items...
@@ -352,15 +356,17 @@ for item in snack_lists:
 #Get snack total from panda
 snack_total = movie_frame['Snacks'].sum()
 snack_profit = snack_total * 0.2
-summary_data.append(snack_profit)
 
-#Get Ticket profit and add to list 
+
+#Calculate ticket profit and total profit 
 ticket_profit = ticket_sales - (5 * ticket_count)
-summary_data.append(ticket_profit)
-
-#Work out total profit and add to list 
 total_profit = snack_profit + ticket_profit
-summary_data.append(total_profit)
+
+#format dollar amounts to list
+dollar_amounts = [snack_profit, ticket_profit, total_profit]
+for item in dollar_amounts:
+    item = "${:.2f}".format(item)
+    summary_data.append(item)
 
 #Create summary frame 
 summary_frame = pandas.DataFrame(summary_data_dict)
@@ -369,11 +375,22 @@ summary_frame = summary_frame.set_index('Item')
 
 pandas.set_option('display.max_columns', None)
 
-pandas.set_option('precision', 2)
+# *** Pre Print / Export ***
+#Format currency values so they have $'s
+
+#Ticket Details Formatting (uses currency function)
+add_dollars = ['Ticket', 'Snacks', 'Surcharge', 'Total', 'Sub Total']
+for item in add_dollars:
+    movie_frame[item] = movie_frame[item].apply(currency)
+
+#Write each fram to a seperate csv files
+movie_frame.to_csv("ticket_details.csv")
+summary_frame.to_csv("snack_summary.csv")
+
 
 print()
 print('*** Ticket / Snack Information ***')
-print('Note: for full details, please see the excel file called "Ticket_"')
+print('Note: for full details, please see the excel file called "Ticket_Summary"')
 print()
 print(movie_frame[['Ticket', 'Snacks', 'Sub Total', 'Surcharge', 'Total']])
 
@@ -383,12 +400,6 @@ print("*** Snack / Profit Summary ***")
 print()
 print(summary_frame)
 
-print_all = input("Print all columns?? (y) for yes")
-if print_all == "y":
-    print(movie_frame)
-else:
-    print(small_frame)
-
 print()
 
 #tell user if they have unsold tickets
@@ -396,7 +407,7 @@ if ticket_count == MAX_TICKETS:
     print('You have sold all the available tickets!')
 else:
     print('You have sold {} tickets. \n'
-          'There are {} places still available'.format(ticket_count, MAX_TICKETS - ticket_count)
+          'There are {} places still available'.format(ticket_count, MAX_TICKETS - ticket_count))
 
 # Calculate Total sales and profit 
 
