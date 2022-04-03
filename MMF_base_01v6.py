@@ -165,6 +165,21 @@ def get_snack():
 def currency(x):
     return "${:.2f}".format(x)
 
+def instructions(options):
+    show_help = 'Invalid choice'
+    show_error = 'Please answer with yes or no.'
+    while show_help == 'Invalid choice':
+        show_help = input("Would you like to read the instructions?")
+        show_help = string_check(show_help, options, show_error)
+
+    if show_help == 'yes':
+        print()
+        print("**** Mega Movie Fundraiser Instructions ****")
+        print()
+        print("")
+
+    return ""
+
     
 # ******* MAIN ROUTINE ***********
 
@@ -240,7 +255,8 @@ price_dict = {
     'Orange Juice': 3.25
     }
 
-
+#Ask if instructions are needed 
+instructions(yes_no)
 
 while name != "xxx" and ticket_count < MAX_TICKETS:
 
